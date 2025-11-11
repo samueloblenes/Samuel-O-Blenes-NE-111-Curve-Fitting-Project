@@ -113,7 +113,7 @@ with tab1:
                 df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
             df_to_plot = df_to_plot.dropna()
             if df_to_plot.empty:
-                st.warning("No numeric data available to plot after conversion.")
+                st.error("No numeric data available to plot after conversion.")
             else:
                 fig, ax = plt.subplots()
                 df_to_plot.plot(ax=ax)
