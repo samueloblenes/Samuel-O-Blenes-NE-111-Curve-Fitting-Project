@@ -10,5 +10,5 @@ st.set_page_config(
 
 page_title = "📊 Curve Fitting Web App"
 st.title(page_title)
-st.divider
+st.divider()
 
