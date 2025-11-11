@@ -64,16 +64,21 @@ with tab1:
                 Confirm_data_message = "Confirmed"
             
 # Graph display section
-    st.divider()
-    col1, col2 = st.columns([1,3])
-    col1.subheader("Data")
-    col2.subheader("Distribution")
 
-    with col1:
-        st.dataframe(df)
+    if Dataconfirmed = True: # If data is confirmed, display the graph and table
+        st.divider()
+        col1, col2 = st.columns([1,3])
+        col1.subheader("Data")
+        col2.subheader("Distribution")
 
-    with col2:
-        df.plot()
+        with col1:
+            st.dataframe(df)
+
+        with col2:
+            df.plot()
+
+    else: 
+        st.write("Enter and confirm your data to view the graph") # if data is not confirmed, display this message
         
 ########## Tab2 Manual curve fitting ##########
 with tab2:    
