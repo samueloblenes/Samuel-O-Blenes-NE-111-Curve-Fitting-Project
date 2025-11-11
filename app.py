@@ -11,13 +11,15 @@ st.set_page_config(
 page_title = "📊 Curve Fitting Web App"
 st.title(page_title)
 
-# Create Tabs and Columns
+# Create Tabs
 tab1, tab2, tab3 = st.tabs(["Auto Fit", "Manual Fit", "Settings"])
-col1, col2 = st.columns([1,3])
-col3, col4 = st.columns(2)
+
 
 # Tab1, Auto curve fitting
 with tab1:
+    col1, col2 = st.columns([1,3])
+    col3, col4 = st.columns(2)
+    
     st.header("Auto Curve Fitting")
 
     st.divider()
@@ -26,9 +28,12 @@ with tab1:
   
 # Tab2 Manual curve fitting
 with tab2:
+    col1, col2 = st.columns([1,3])
+    col3, col4 = st.columns(2)
+    
     st.header("Manual Curve Fitting")
 
-    st.divider
+    st.divider()
     col1.subheader("Data")
     col2.subheader("Distribution")
 
