@@ -14,15 +14,21 @@ st.divider()
 
 # Create Tabs and Columns
 tab1, tab2, tab3 = st.tabs(["Auto Fit", "Manual Fit", "Settings"])
-col1, col2 = st.columns
+col1, col2 = st.columns(1,3)
 
 # Tab1, Auto curve fitting
 with tab1:
     st.header("Auto Curve Fitting")
 
+    col1.subheader("Data")
+    col2.subheader("Distribution")
+  
 # Tab2 Manual curve fitting
 with tab2:
     st.header("Manual Curve Fitting")
+
+    col1.subheader("Data")
+    col2.subheader("Distribution")
 
 # Tab3 Settings
 with tab3:
