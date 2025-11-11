@@ -56,15 +56,12 @@ with tab1:
 
         # Manual entry mode
         if  entry_method == "Manual entry":
-            st.session_state.df = pd.DataFrame(columns=["column 1", "column2"]) # create the data frame as a sesion state variable do it remains constant
+            st.session_state.df = pd.DataFrame(columns=["X-Axis", "Y-Axis"]) # create the data frame as a sesion state variable do it remains constant
             edited_df = st.data_editor(st.session_state.df, num_rows="dynamic") # make the data frame editable 
 
             # Show mesages based on confirmation
-            if not st.session_state.Dataconfirmed:
-                st.write("Click confrim to display the graph")
-            else:
-                st.write("Click Clear to enter a new dataset")
-        
+            st.write("Click confirm to update the graph, Click clear to clear all entered data")
+
             col3_1, col3_2 = st.columns(2)
 
             # Confirm entered data, if there is no data entered, display an error and ask the user to input data 
