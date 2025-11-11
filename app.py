@@ -71,7 +71,10 @@ with tab1:
             with col3_1:
                 confirm_clicked = st.button("Confirm")
                 if confirm_clicked:
-                    if not edited_df.empty:
+                    # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
+                    cleaned_df = edited_df.dropna(how="all")
+                    # Check if at least one cell is not empty
+                    if not cleaned_df.empty and cleaned_df.notna().any().any():
                         st.session_state.df = edited_df.copy()
                         st.session_state.Dataconfirmed = True
                     else:
@@ -113,7 +116,7 @@ with tab1:
                 df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
             df_to_plot = df_to_plot.dropna()
             if df_to_plot.empty:
-                st.error("No numeric data available to plot after conversion.")
+                st.error("No numeric data available to plot.") # Error message if no data is enetred and the program proceeds to try and graph
             else:
                 fig, ax = plt.subplots()
                 df_to_plot.plot(ax=ax)
