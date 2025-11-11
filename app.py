@@ -69,24 +69,25 @@ with tab1:
 
             # Confirm entered data, if there is no data entered, display an error and ask the user to input data 
             with col3_1:
-                if st.button("Confirm") and not st.session_state.df.empty:
-                    st.session_state.df = edited_df # updated pandas dataframe to contain the entered data
-                    st.session_state.Dataconfirmed = True
-                elif st.button("Confirm") and st.session_state.df.empty:
-                    # create an html text box to display an error message 
-                    st.markdown(""" <style>.error-box {
-                                background-color: #FF746C;
-                                padding: 1.2em;
-                                border-radius: 10px;
-                                border-left: 6px solid #FFE66D;
-                                font-size: 1.1em;
-                                line-height: 1.6em;
-                                color: #333;
-                                box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-                            }</style>""", unsafe_allow_html=True)
-                    
-                        # Render description text box
-                    st.markdown(f"<div class='error-box'>{"Please enter some data to confirm"}</div>", unsafe_allow_html=True)
+                confirm_clicked = st.button("Confirm")
+    if confirm_clicked:
+        if not edited_df.empty:
+            st.session_state.df = edited_df.copy()
+            st.session_state.Dataconfirmed = True
+        else:
+            st.session_state.Dataconfirmed = False
+            st.markdown("""
+                <style>.error-box {
+                    background-color: #FF746C;
+                    padding: 1.2em;
+                    border-radius: 10px;
+                    border-left: 6px solid #FFE66D;
+                    font-size: 1.1em;
+                    line-height: 1.6em;
+                    color: #333;
+                    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);}
+                </style>""", unsafe_allow_html=True)
+            st.markdown("<div class='error-box'>Please enter some data to confirm</div>", unsafe_allow_html=True)
                     
 
             # Clear entered data
