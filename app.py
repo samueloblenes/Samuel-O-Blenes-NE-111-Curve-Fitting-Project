@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from scipy.stats import gamma
 import matplotlib.pyplot as plt
 
 # Page formating
