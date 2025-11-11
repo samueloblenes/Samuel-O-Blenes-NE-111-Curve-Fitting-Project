@@ -108,7 +108,7 @@ with tab1:
             st.dataframe(st.session_state.df)
 
         with col2:
-            df_to_plot = st.session_state.df.copy()
+            df_to_plot = df_to_plot.iloc[:, 1:] # remove first column in the data frame
             for col in df_to_plot.columns:
                 df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
             df_to_plot = df_to_plot.dropna()
