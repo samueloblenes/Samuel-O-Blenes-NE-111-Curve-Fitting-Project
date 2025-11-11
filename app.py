@@ -38,7 +38,7 @@ st.markdown(f"<div class='description-box'>{"Select either Auto fit, or manual f
 
 #Initializing variable
 Dataconfirmed = False # Varaible to keep track of weather the user has confirmed the entered data
-Confrim_data_message = "Press confrim"
+confrim_data_message = "Press confrim"
 
 # Create Tabs
 tab1, tab2, tab3 = st.tabs(["Auto Fit", "Manual Fit", "Settings"])
@@ -63,7 +63,7 @@ with tab1:
         with col3_1:
             if st.button("Confirm"):
                 Dataconfirmed = True
-                Confirm_data_message = "Confirmed"
+                confirm_data_message = "Confirmed"
             
 # Graph display section
 
