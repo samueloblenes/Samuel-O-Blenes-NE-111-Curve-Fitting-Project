@@ -78,19 +78,7 @@ with tab1:
                         st.session_state.df = edited_df.copy()
                         st.session_state.Dataconfirmed = True
                     else:
-                        st.session_state.Dataconfirmed = False
-                        st.markdown("""
-                            <style>.error-box {
-                                background-color: #FF746C;
-                                padding: 1.2em;
-                                border-radius: 10px;
-                                border-left: 6px solid #FFE66D;
-                                font-size: 1.1em;
-                                line-height: 1.6em;
-                                color: #333;
-                                box-shadow: 2px 2px 5px rgba(0,0,0,0.1);}
-                            </style>""", unsafe_allow_html=True)
-                        st.markdown("<div class='error-box'>Please enter some data to confirm</div>", unsafe_allow_html=True)
+                       st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
                     
             # Clear entered data
             with col3_2:
