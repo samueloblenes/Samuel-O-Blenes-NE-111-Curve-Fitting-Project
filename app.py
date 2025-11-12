@@ -128,18 +128,8 @@ with tab1:
         )
         
         st.divider()
-        
-########## Tab2 Manual curve fitting ##########
-with tab2:    
-    
-    col3, col4 = st.columns(2)
 
-    st.divider()
-    col1, col2 = st.columns([1,3])
-    col1.subheader("Data")
-    col2.subheader("Distribution")
-
-# Graph display section
+    # Graph display section
     st.divider()
     
     if st.session_state.Dataconfirmed and not st.session_state.df.empty: # If data is confirmed and the dataframe is not empty, display the graph and table
@@ -175,4 +165,15 @@ with tab2:
 
     else: 
         st.write("Once you enter and confirm your data a graph will apear here") # if data is not confirmed, display this message
+
+        
+########## Tab2 Manual curve fitting ##########
+with tab2:    
+    
+    col3, col4 = st.columns(2)
+
+    st.divider()
+    col1, col2 = st.columns([1,3])
+    col1.subheader("Data")
+    col2.subheader("Distribution")
 
