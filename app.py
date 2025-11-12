@@ -87,7 +87,7 @@ with tab1:
             edited_df = st.data_editor(st.session_state.df, num_rows="dynamic") # make the data frame editable 
 
         # File upload mode
-        elif entry_method == "Upload CSV file"
+        elif entry_method == "Upload CSV file":
             uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
             if uploaded_file != None:
