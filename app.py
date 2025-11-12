@@ -65,7 +65,7 @@ st.markdown(
 st.markdown(f"<div class='description-box'>{"Select either Auto fit, or manual fit. bellow and enter your data, or a CSV file to begin"}</div>", unsafe_allow_html=True)
 
 # Create Tabs
-tab1, tab2, tab3 = st.tabs(["Auto Fit", "Manual Fit", "Settings"])
+tab1, tab2= st.tabs(["Auto Fit", "Manual Fit"])
 
 
 ########## Tab1, Auto curve fitting ##########
@@ -128,8 +128,17 @@ with tab1:
         )
         
         st.divider()
-      
-            
+        
+########## Tab2 Manual curve fitting ##########
+with tab2:    
+    
+    col3, col4 = st.columns(2)
+
+    st.divider()
+    col1, col2 = st.columns([1,3])
+    col1.subheader("Data")
+    col2.subheader("Distribution")
+
 # Graph display section
     st.divider()
     
@@ -166,18 +175,4 @@ with tab1:
 
     else: 
         st.write("Once you enter and confirm your data a graph will apear here") # if data is not confirmed, display this message
-        
-########## Tab2 Manual curve fitting ##########
-with tab2:    
-    
-    col3, col4 = st.columns(2)
-
-    st.divider()
-    col1, col2 = st.columns([1,3])
-    col1.subheader("Data")
-    col2.subheader("Distribution")
-
-# Tab3 Settings
-with tab3:
-    pass
 
