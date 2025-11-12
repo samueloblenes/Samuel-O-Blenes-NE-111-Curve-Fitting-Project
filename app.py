@@ -139,12 +139,12 @@ with tab1:
         col2.subheader("Distribution")
 
         # prepare/clean entered date
-            df_to_plot = st.session_state.df.copy() # define the dataframe to plot
-            for col in df_to_plot.columns:
-                df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
-                df_to_plot = df_to_plot.dropna()
+        df_to_plot = st.session_state.df.copy() # define the dataframe to plot
+        for col in df_to_plot.columns:
+            df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
+            df_to_plot = df_to_plot.dropna()
 
-            orig_df, fit_df = fit(df_to_plot, dist_name, int(num_points))
+        orig_df, fit_df = fit(df_to_plot, dist_name, int(num_points))
 
         with col1:
             st.dataframe(orig_df)
