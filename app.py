@@ -110,6 +110,16 @@ with tab1:
     # configure curve fitting and graph apearance
     with col4:
         st.text("Configure curve fitting")
+        
+        num_points = st.number_input("Curve resolution")
+        st.text("increasing the curve resolution provides a smoother fitted curve")
+        
+        dist_name = st.slectbox(
+            "Choose a distribution", 
+            "norm", "expon", "gamma", "beta", "uniform", 
+            "weibull_min", "poisson", "binom", "chi2", "lognorm"
+        )
+        
         st.divider()
       
             
@@ -125,14 +135,19 @@ with tab1:
             st.dataframe(st.session_state.df)
 
         with col2:
+            # prepare/clean entered date
             df_to_plot = st.session_state.df.copy() # define the dataframe to plot
             df_to_plot = df_to_plot.iloc[:, 1:] # remove first column in the data frame
             for col in df_to_plot.columns:
                 df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
             df_to_plot = df_to_plot.dropna()
+
+            # if no numerical data was entered, display and error
             if df_to_plot.empty:
                 st.error("No numeric data available to plot.") # Error message if no data is enetred and the program proceeds to try and graph
+                
             else:
+                orig_df, fit_df = fit(df_to_plot, dist_name, num_points)
                 fig, ax = plt.subplots()
                 df_to_plot.plot(ax=ax)
                 st.pyplot(fig)
