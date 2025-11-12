@@ -86,28 +86,40 @@ with tab1:
         if  entry_method == "Manual entry":
             edited_df = st.data_editor(st.session_state.df, num_rows="dynamic") # make the data frame editable 
 
-            # Confirm entered data, if there is no data entered, display an error and ask the user to input data
-            col3_1, col3_2 = st.columns(2)
-            with col3_1:
-                st.write("Click confirm to update the graph")
-                confirm_clicked = st.button("Confirm")
-                if confirm_clicked:
-                    # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
-                    cleaned_df = edited_df.dropna(how="all")
-                    # Check if at least one cell is not empty
-                    if not cleaned_df.empty and cleaned_df.notna().any().any():
-                        st.session_state.df = edited_df.copy()
-                        st.session_state.Dataconfirmed = True
-                    else:
-                       st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
+        # File upload mode
+        elif entry_method == "Upload CSV file"
+            uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+            if uploaded_file != None:
+                st.session_state.df = pd.read_csv(uploaded_file) # Read the CSV file to the pandas DataFrame
+                # Display uploaded Data
+                st.write("Uploaded Data:")
+                st.dataframe(df)
+            
+            
+
+        # Confirm entered data, if there is no data entered, display an error and ask the user to input data
+        col3_1, col3_2 = st.columns(2)
+        with col3_1:
+            st.write("Click confirm to update the graph")
+            confirm_clicked = st.button("Confirm")
+            if confirm_clicked:
+                # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
+                cleaned_df = edited_df.dropna(how="all")
+                # Check if at least one cell is not empty
+                if not cleaned_df.empty and cleaned_df.notna().any().any():
+                    st.session_state.df = edited_df.copy()
+                    st.session_state.Dataconfirmed = True
+                else:
+                   st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
                     
-            # Clear entered data
-            with col3_2:
-                 st.write("Click clear to clear all entered data")
-                 if st.button("Clear"):
-                    st.session_state.df = pd.DataFrame(columns=edited_df.columns) # Reset pandas dataframe 
-                    st.session_state.Dataconfirmed = False # Set confirmation variable to False
-                    st.rerun()
+        # Clear entered data
+        with col3_2:
+             st.write("Click clear to clear all entered data")
+             if st.button("Clear"):
+                st.session_state.df = pd.DataFrame(columns=edited_df.columns) # Reset pandas dataframe 
+                st.session_state.Dataconfirmed = False # Set confirmation variable to False
+                st.rerun()
                      
     # configure curve fitting and graph apearance
     with col4:
