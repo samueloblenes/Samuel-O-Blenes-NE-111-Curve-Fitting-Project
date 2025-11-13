@@ -34,7 +34,7 @@ def fit(df, dist_name, num_points, x_col = "X-Axis", y_col = 'Y-Axis'):
 def data_entry(entry_method, unique_prefix): 
     input_df = pd.DataFrame(columns=["X-Axis", "Y-Axis"])
     if entry_method == "Manual entry":
-        input_df = st.data_editor(st.session_state.df, num_rows="dynamic", key=f"{unique_prefix}_editor") #unique prefix gives a different key to the data editor widget so that I can make sure that the data editors are unique for each tab
+        input_df = st.data_editor(st.session_state.df, num_rows="dynamic", key=f"{unique_prefix}_editor") #unique prefix gives a different key to the widgets, was inititally going to sue So i could have seperat ones on each tab but ended up scrapping that idea
     else:
         uploaded_file = st.file_uploader("Choose a CSV file", type="csv", key=f"{unique_prefix}_uploader")
         if uploaded_file != None:
@@ -103,38 +103,44 @@ if "num_points" not in st.session_state:
     st.session_state.num_points = 300 
 
 
+
+########## Data entry ##########
+entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="auto_entry_method")
+input_df = data_entry(entry_method, "auto") # call data entry function
+
+# Confirm entered data, if there is no data entered, display an error and ask the user to input data
+col1, col2 = st.columns(2)
+with col1:
+    st.write("Click confirm to update the graph")
+    confirm_clicked = st.button("Confirm")
+    if confirm_clicked:
+        # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
+        cleaned_df = input_df.dropna() #remove None values from dataframe
+        if not cleaned_df.empty and cleaned_df.notna().any().any(): # Check if at least one cell is not empty
+            st.session_state.df = cleaned_df
+            st.session_state.Dataconfirmed = True
+        else:
+           st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
+            
+# Clear entered data
+with col2:
+     st.write("Click clear to clear all entered data")
+     if st.button("Clear"):
+        st.session_state.df = pd.DataFrame(columns=["X-Axis", "Y-Axis"]) # Reset pandas dataframe 
+        st.session_state.Dataconfirmed = False # Set confirmation variable to False
+        st.session_state["auto_uploader"] = None # clear uplaoded file
+        st.rerun() # force streamlit to rerun so that the input table is cleared imediatly
+
+st.session_state.dist_name = st.selectbox(
+        "Choose a distribution", 
+        ["norm", "expon", "gamma", "beta", "uniform", 
+        "weibull_min", "poisson", "binom", "chi2", "lognorm"]
+    )
+
+
 ########## Tab1 Auto curve fitting ##########
 with tab1:    
-    entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="auto_entry_method")
-    input_df = data_entry(entry_method, "auto") # call data entry function
-
-    # Confirm entered data, if there is no data entered, display an error and ask the user to input data
-    col1, col2 = st.columns(2)
-    with col1:
-        st.write("Click confirm to update the graph")
-        confirm_clicked = st.button("Confirm",key="auto_confirm_button")
-        if confirm_clicked:
-            # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
-            cleaned_df = input_df.dropna() #remove None values from dataframe
-            if not cleaned_df.empty and cleaned_df.notna().any().any(): # Check if at least one cell is not empty
-                st.session_state.df = cleaned_df
-                st.session_state.Dataconfirmed = True
-            else:
-               st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
-                
-    # Clear entered data
-    with col2:
-         st.write("Click clear to clear all entered data")
-         if st.button("Clear",key="auto_clear_button"):
-            st.session_state.df = pd.DataFrame(columns=["X-Axis", "Y-Axis"]) # Reset pandas dataframe 
-            st.session_state.Dataconfirmed = False # Set confirmation variable to False
-            st.rerun() # force streamlit to rerun so that the input table is cleared imediatly
-
-    st.session_state.dist_name = st.selectbox(
-            "Choose a distribution", 
-            ["norm", "expon", "gamma", "beta", "uniform", 
-            "weibull_min", "poisson", "binom", "chi2", "lognorm"],key="auto_dist"
-        )
+    st.texxt("Auto curv fitting. create default paramters and make so that if this tab is selected fitting is done with the default paramater, include some plot appearance customization")
              
 ########## Tab2, Manual curve fitting ##########
 with tab2:
@@ -142,31 +148,7 @@ with tab2:
     
     # Data entry section
     with col3:
-        entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="manual_entry_method")
-        input_df = data_entry(entry_method, "manual") # call data entry function
-
-        # Confirm entered data, if there is no data entered, display an error and ask the user to input data
-        col3_1, col3_2 = st.columns(2)
-        with col3_1:
-            st.write("Click confirm to update the graph")
-            confirm_clicked = st.button("Confirm",key="manual_confirm_button")
-            if confirm_clicked:
-                # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
-                cleaned_df = input_df.dropna() #remove None values from dataframe
-                if not cleaned_df.empty and cleaned_df.notna().any().any(): # Check if at least one cell is not empty
-                    st.session_state.df = cleaned_df
-                    st.session_state.Dataconfirmed = True
-                else:
-                   st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
-                        
-        # Clear entered data
-        with col3_2:
-             st.write("Click clear to clear all entered data")
-             if st.button("Clear",key="manual_clear_button"):
-                st.session_state.df = pd.DataFrame(columns=["X-Axis", "Y-Axis"]) # Reset pandas dataframe 
-                st.session_state.Dataconfirmed = False # Set confirmation variable to False
-                st.rerun() # force streamlit to rerun so that the input table is cleared imediatly
-                     
+        
     # configure curve fitting and graph apearance
     with col4:
         st.text("Configure curve fitting")
@@ -180,14 +162,6 @@ with tab2:
         
         st.text("increasing the curve resolution provides a smoother fitted curve")
         
-        st.session_state.dist_name = st.selectbox(
-            "Choose a distribution", 
-            ["norm", "expon", "gamma", "beta", "uniform", 
-            "weibull_min", "poisson", "binom", "chi2", "lognorm"],key="manual_dist"
-        )
-        
-        st.divider()
-
 ########## Graph display section ##########
 st.divider()
 
