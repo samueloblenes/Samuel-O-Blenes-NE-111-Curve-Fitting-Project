@@ -135,7 +135,7 @@ with tab1:
     st.session_state.dist_name = st.selectbox(
             "Choose a distribution", 
             ["norm", "expon", "gamma", "beta", "uniform", 
-            "weibull_min", "poisson", "binom", "chi2", "lognorm"]
+            "weibull_min", "poisson", "binom", "chi2", "lognorm"],key="auto_dist"
         )
              
 ########## Tab2, Manual curve fitting ##########
@@ -187,7 +187,7 @@ with tab2:
         st.session_state.dist_name = st.selectbox(
             "Choose a distribution", 
             ["norm", "expon", "gamma", "beta", "uniform", 
-            "weibull_min", "poisson", "binom", "chi2", "lognorm"]
+            "weibull_min", "poisson", "binom", "chi2", "lognorm"],key="manual_dist"
         )
         
         st.divider()
