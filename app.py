@@ -92,8 +92,7 @@ st.markdown(
 # Render description text box
 st.markdown(f"<div class='description-box'>{"Select either Auto fit, or manual fit. bellow and enter your data, or a CSV file to begin"}</div>", unsafe_allow_html=True)
 
-# Create Tabs
-tab1, tab2= st.tabs(["Auto Fit", "Manual Fit"])
+
 
 #Initializing session state variables for things that I dont want reset everythime strealit updated
 if "Dataconfirmed" not in st.session_state:
@@ -139,6 +138,8 @@ st.session_state.dist_name = st.selectbox(
         "weibull_min", "poisson", "binom", "chi2", "lognorm"]
     )
 
+# Create Tabs
+tab1, tab2= st.tabs(["Auto Fit", "Manual Fit"])
 
 ########## Tab1 Auto curve fitting ##########
 with tab1:    
