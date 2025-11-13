@@ -36,7 +36,7 @@ def data_entry(entry_method, unique_prefix):
     if entry_method == "Manual entry":
         input_df = st.data_editor(st.session_state.df, num_rows="dynamic", key=f"{unique_prefix}_editor") #unique prefix gives a different key to the data editor widget so that I can make sure that the data editors are unique for each tab
     else:
-        uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+        uploaded_file = st.file_uploader("Choose a CSV file", type="csv", key=f"{unique_prefix}_uploader")
         if uploaded_file != None:
             df_uploaded = pd.read_csv(uploaded_file) # Read the CSV file to a pandas DataFrame
             num_cols = df_uploaded.shape[1] # check if dataframe has the correct dimensions
