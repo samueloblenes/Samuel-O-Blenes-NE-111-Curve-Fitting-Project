@@ -54,9 +54,6 @@ def data_entry(entry_method, unique_prefix):
             else:
                 st.error("Uploaded CSV has more than 2 columns, please enter a file containing only 2 columns for x and y data respectively")
 
-            # Display uploaded Data
-            st.write("Uploaded Data:")
-            st.dataframe(input_df)
     return input_df
 
 # Page formating
@@ -105,10 +102,16 @@ if "dist_name" not in st.session_state: # initialize selected sistribution so th
 if "num_points" not in st.session_state:
     st.session_state.num_points = 300 
 
+
 ########## Tab1 Auto curve fitting ##########
 with tab1:    
     entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="auto_entry_method")
     input_df = data_entry(entry_method, "auto") # call data entry function
+
+    if entry_method == "Upload CSV file":
+        # Display uploaded Data
+        st.write("Uploaded Data:")
+        st.dataframe(st.session_state.df)
     
     # Confirm entered data, if there is no data entered, display an error and ask the user to input data
     col1, col2 = st.columns(2)
@@ -147,7 +150,10 @@ with tab2:
         entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="manual_entry_method")
         input_df = data_entry(entry_method, "manual") # call data entry function
       
-            
+        if entry_method == "Upload CSV file":
+            # Display uploaded Data
+            st.write("Uploaded Data:")
+            st.dataframe(st.session_state.df)
 
         # Confirm entered data, if there is no data entered, display an error and ask the user to input data
         col3_1, col3_2 = st.columns(2)
