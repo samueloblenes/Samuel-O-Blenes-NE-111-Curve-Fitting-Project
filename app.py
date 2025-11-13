@@ -114,7 +114,7 @@ with tab1:
     col1, col2 = st.columns(2)
     with col1:
         st.write("Click confirm to update the graph")
-        confirm_clicked = st.button("Confirm")
+        confirm_clicked = st.button("Confirm",key="auto")
         if confirm_clicked:
             # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
             cleaned_df = input_df.dropna() #remove None values from dataframe
@@ -153,7 +153,7 @@ with tab2:
         col3_1, col3_2 = st.columns(2)
         with col3_1:
             st.write("Click confirm to update the graph")
-            confirm_clicked = st.button("Confirm")
+            confirm_clicked = st.button("Confirm",key="manual")
             if confirm_clicked:
                 # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
                 cleaned_df = input_df.dropna() #remove None values from dataframe
