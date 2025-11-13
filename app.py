@@ -108,11 +108,6 @@ with tab1:
     entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="auto_entry_method")
     input_df = data_entry(entry_method, "auto") # call data entry function
 
-    if entry_method == "Upload CSV file":
-        # Display uploaded Data
-        st.write("Uploaded Data:")
-        st.dataframe(st.session_state.df)
-    
     # Confirm entered data, if there is no data entered, display an error and ask the user to input data
     col1, col2 = st.columns(2)
     with col1:
@@ -149,11 +144,6 @@ with tab2:
     with col3:
         entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="manual_entry_method")
         input_df = data_entry(entry_method, "manual") # call data entry function
-      
-        if entry_method == "Upload CSV file":
-            # Display uploaded Data
-            st.write("Uploaded Data:")
-            st.dataframe(st.session_state.df)
 
         # Confirm entered data, if there is no data entered, display an error and ask the user to input data
         col3_1, col3_2 = st.columns(2)
