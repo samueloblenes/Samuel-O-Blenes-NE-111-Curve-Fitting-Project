@@ -104,18 +104,18 @@ with tab1:
                     df_uploaded['X-Axis'] = range(1, len(df_uploaded) + 1)
                     df_uploaded = df_uploaded[['X-Axis', 'Y-Axis']]  # reorder columns
                     st.warning("Only one column found, assumed it is Y-Axis, X-Axis assigned as sequential integers starting from 1.")
-                    st.session_state.df = df_uploaded
+                    edited_df = df_uploaded
                     
                 elif num_cols == 2:
                     df_uploaded.columns = ['X-Axis', 'Y-Axis']
-                    st.session_state.df = df_uploaded
+                    edited_df = df_uploaded
                     
                 if num_cols > 2:
                     st.error("Uploaded CSV has more than 2 columns, please enter a file containing only 2 columns for x and y data respectively")
       
                 # Display uploaded Data
                 st.write("Uploaded Data:")
-                st.dataframe(st.session_state.df)
+                st.dataframe(edited_df)
             
             
 
@@ -129,7 +129,7 @@ with tab1:
                 cleaned_df = edited_df.dropna(how="all")
                 # Check if at least one cell is not empty
                 if not cleaned_df.empty and cleaned_df.notna().any().any():
-                    st.session_state.df = edited_df.copy()
+                    st.session_state.df = cleaned_df
                     st.session_state.Dataconfirmed = True
                 else:
                    st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
