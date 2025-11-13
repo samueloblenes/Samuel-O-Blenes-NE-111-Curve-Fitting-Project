@@ -91,10 +91,31 @@ with tab1:
             uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
             if uploaded_file != None:
-                st.session_state.df = pd.read_csv(uploaded_file) # Read the CSV file to the pandas DataFrame
+                df_uploaded = pd.read_csv(uploaded_file) # Read the CSV file to a pandas DataFrame
+
+                # check if dataframe has the correct dimensions
+                num_cols = df_uploaded.shape[1]
+                
+                if num_cols == 0:
+                    st.error("Uploaded CSV has no columns, please upload valid data.")
+                    
+                elif num_cols == 1: # for only 1 column treat as Y-Axis, create default X-Axis
+                    df_uploaded.columns = ['Y-Axis'] # rename columns
+                    df_uploaded['X-Axis'] = range(1, len(df_uploaded) + 1)
+                    df_uploaded = df_uploaded[['X-Axis', 'Y-Axis']]  # reorder columns
+                    st.warning("Only one column found, assumed it is Y-Axis, X-Axis assigned as sequential integers starting from 1.")
+                    st.session_state.df = df_uploaded
+                    
+                elif num_cols == 2:
+                    df_uploaded.columns = ['X-Axis', 'Y-Axis']
+                    st.session_state.df = df_uploaded
+                    
+                if num_cols > 2:
+                    st.error("Uploaded CSV has more than 2 columns, please enter a file containing only 2 columns for x and y data respectively")
+      
                 # Display uploaded Data
                 st.write("Uploaded Data:")
-                st.dataframe(df)
+                st.dataframe(st.session_state.df)
             
             
 
