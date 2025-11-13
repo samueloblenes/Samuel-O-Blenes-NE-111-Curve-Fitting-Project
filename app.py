@@ -78,69 +78,70 @@ if "df" not in st.session_state:
 with tab1:    
      entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"))
 
-        # Manual entry mode
-        if  entry_method == "Manual entry":
-            edited_df = st.data_editor(st.session_state.df, num_rows="dynamic") # make the data frame editable 
+    # Manual entry mode
+    if  entry_method == "Manual entry":
+        edited_df = st.data_editor(st.session_state.df, num_rows="dynamic") # make the data frame editable 
 
-        # File upload mode
-        elif entry_method == "Upload CSV file":
-            uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    # File upload mode
+    elif entry_method == "Upload CSV file":
+        uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
-            if uploaded_file != None:
-                df_uploaded = pd.read_csv(uploaded_file) # Read the CSV file to a pandas DataFrame
+        if uploaded_file != None:
+            df_uploaded = pd.read_csv(uploaded_file) # Read the CSV file to a pandas DataFrame
 
-                # check if dataframe has the correct dimensions
-                num_cols = df_uploaded.shape[1]
-                
-                if num_cols == 0:
-                    st.error("Uploaded CSV has no columns, please upload valid data.")
-                    
-                elif num_cols == 1: # for only 1 column treat as Y-Axis, create default X-Axis
-                    df_uploaded.columns = ['Y-Axis'] # rename columns
-                    df_uploaded['X-Axis'] = range(1, len(df_uploaded) + 1)
-                    df_uploaded = df_uploaded[['X-Axis', 'Y-Axis']]  # reorder columns
-                    st.warning("Only one column found, assumed it is Y-Axis, X-Axis assigned as sequential integers starting from 1.")
-                    edited_df = df_uploaded
-                    
-                elif num_cols == 2:
-                    df_uploaded.columns = ['X-Axis', 'Y-Axis']
-                    edited_df = df_uploaded
-                    
-                if num_cols > 2:
-                    st.error("Uploaded CSV has more than 2 columns, please enter a file containing only 2 columns for x and y data respectively")
-      
-                # Display uploaded Data
-                st.write("Uploaded Data:")
-                st.dataframe(edited_df)
+            # check if dataframe has the correct dimensions
+            num_cols = df_uploaded.shape[1]
             
-        # Confirm entered data, if there is no data entered, display an error and ask the user to input data
-        col3_1, col3_2 = st.columns(2)
-        with col3_1:
-            st.write("Click confirm to update the graph")
-            confirm_clicked = st.button("Confirm")
-            if confirm_clicked:
-                # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
-                cleaned_df = edited_df.dropna(how="all")
-                # Check if at least one cell is not empty
-                if not cleaned_df.empty and cleaned_df.notna().any().any():
-                    st.session_state.df = cleaned_df
-                    st.session_state.Dataconfirmed = True
-                else:
-                   st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
-                    
-        # Clear entered data
-        with col3_2:
-             st.write("Click clear to clear all entered data")
-             if st.button("Clear"):
-                st.session_state.df = pd.DataFrame(columns=edited_df.columns) # Reset pandas dataframe 
-                st.session_state.Dataconfirmed = False # Set confirmation variable to False
-                st.rerun()   
-    
-    st.divider()
-    col1, col2 = st.columns([1,3])
-    col1.subheader("Data")
-    col2.subheader("Distribution")
-    
+            if num_cols == 0:
+                st.error("Uploaded CSV has no columns, please upload valid data.")
+                
+            elif num_cols == 1: # for only 1 column treat as Y-Axis, create default X-Axis
+                df_uploaded.columns = ['Y-Axis'] # rename columns
+                df_uploaded['X-Axis'] = range(1, len(df_uploaded) + 1)
+                df_uploaded = df_uploaded[['X-Axis', 'Y-Axis']]  # reorder columns
+                st.warning("Only one column found, assumed it is Y-Axis, X-Axis assigned as sequential integers starting from 1.")
+                edited_df = df_uploaded
+                
+            elif num_cols == 2:
+                df_uploaded.columns = ['X-Axis', 'Y-Axis']
+                edited_df = df_uploaded
+                
+            if num_cols > 2:
+                st.error("Uploaded CSV has more than 2 columns, please enter a file containing only 2 columns for x and y data respectively")
+  
+            # Display uploaded Data
+            st.write("Uploaded Data:")
+            st.dataframe(edited_df)
+        
+    # Confirm entered data, if there is no data entered, display an error and ask the user to input data
+    col3_1, col3_2 = st.columns(2)
+    with col3_1:
+        st.write("Click confirm to update the graph")
+        confirm_clicked = st.button("Confirm")
+        if confirm_clicked:
+            # Remove rows where ALL cells are None, to check if there are actually any numerical values, not just a bunch of aded empty rows
+            cleaned_df = edited_df.dropna(how="all")
+            # Check if at least one cell is not empty
+            if not cleaned_df.empty and cleaned_df.notna().any().any():
+                st.session_state.df = cleaned_df
+                st.session_state.Dataconfirmed = True
+            else:
+               st.error("Please enter some data to confirm") #if not data has been enetred (the data frame only contains None values or no values) display this error message
+                
+    # Clear entered data
+    with col3_2:
+         st.write("Click clear to clear all entered data")
+         if st.button("Clear"):
+            st.session_state.df = pd.DataFrame(columns=edited_df.columns) # Reset pandas dataframe 
+            st.session_state.Dataconfirmed = False # Set confirmation variable to False
+            st.rerun()   
+
+    dist_name = st.selectbox(
+            "Choose a distribution", 
+            ["norm", "expon", "gamma", "beta", "uniform", 
+            "weibull_min", "poisson", "binom", "chi2", "lognorm"]
+        )
+             
 ########## Tab2, Manual curve fitting ##########
 with tab2:
     
