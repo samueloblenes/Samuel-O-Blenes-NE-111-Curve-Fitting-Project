@@ -67,30 +67,6 @@ st.set_page_config(
 page_title = "📊 Curve Fitting Web App"
 st.title(page_title)
 
-# create description text box
-st.markdown(
-    """
-    <style>
-        .description-box {
-            background-color: #4ECDC4;
-            padding: 1.2em;
-            border-radius: 10px;
-            border-left: 6px solid #FFE66D;
-            font-size: 1.1em;
-            line-height: 1.6em;
-            color: #333;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Render description text box
-st.markdown(f"<div class='description-box'>{"Select either Auto fit, or manual fit. bellow and enter your data, or a CSV file to begin"}</div>", unsafe_allow_html=True)
-
-
-
 #Initializing session state variables for things that I dont want reset everythime strealit updated
 if "Dataconfirmed" not in st.session_state:
     st.session_state.Dataconfirmed = False # Session state varaible to keep track of if the user has confirmed the entered data
@@ -104,6 +80,7 @@ if "num_points" not in st.session_state:
 
 
 ########## Data entry ##########
+st.subheader("Data Entry")
 entry_method = st.selectbox("Choose to enter data manualy or upload a CSV file",("Manual entry","Upload CSV file"),key="auto_entry_method")
 input_df = data_entry(entry_method, "auto") # call data entry function
 
@@ -134,6 +111,8 @@ st.session_state.dist_name = st.selectbox(
         ["norm", "expon", "gamma", "beta", "uniform", 
         "weibull_min", "poisson", "binom", "chi2", "lognorm"]
     )
+
+st.subheader("Select Auto Fit, or Manual Fit")
 
 # Create Tabs
 tab1, tab2= st.tabs(["Auto Fit", "Manual Fit"])
