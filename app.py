@@ -26,7 +26,7 @@ def fit(df, dist_name, xi = None, xf = None, num_points =  300, x_col = "X-Axis"
 
 
     # I tried using the distribution.fit(data) method shown in the course notes but it didint work for discrete distributions, used stats.fit instead
-    fit_result = stats.fit(distribution, y_axis_data)
+    fit_result = stats.fit(distribution, y_axis)
     params_dict = fit_result.params #gives the paramaters in the form of a dictionary
     params = tuple(params_dict.values()) #turn paramaters into a tuple
 
