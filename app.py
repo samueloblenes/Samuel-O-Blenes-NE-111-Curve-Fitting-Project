@@ -152,7 +152,9 @@ if st.session_state.Dataconfirmed and not st.session_state.df.empty: # If data i
     orig_df, fit_df = fit(df_to_plot, st.session_state.dist_name, int(st.session_state.num_points))
     
     with col1:
+        st.write("Entered Data")
         st.dataframe(orig_df)
+        st.write("Fit data")
         st.dataframe(fit_df)
     
     with col2:
