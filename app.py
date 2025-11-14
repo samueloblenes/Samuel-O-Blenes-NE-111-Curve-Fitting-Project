@@ -1,3 +1,12 @@
+################################################################################
+# Samuel O'Blenes NE 111 Final project
+#
+# Description:
+#    This program is a curve fitting web app made using the streamlit library.
+#    It accepts data either through manuall entry or by uploading a .CSV file 
+#    and allows the user to configure a number of setting
+################################################################################
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -175,6 +184,6 @@ if st.session_state.Dataconfirmed and not st.session_state.df.empty: # If data i
 else: 
     st.write("Once you enter and confirm your data a graph will apear here") # if data is not confirmed, display this message
 
-        
+# Samuel O'Blenes NE 111 Final project
 
 
