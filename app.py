@@ -24,21 +24,28 @@ def fit(df, dist_name, xi = None, xf = None, num_points =  300, x_col = "X-Axis"
 
     distribution = getattr(stats, dist_name) #get the distribution from the name passed to the function
 
-    params = distribution.fit(y_axis) # Fits the distribution to the cureve, Gives estimated paramaters
 
-    if xi is None and xf is None:
-        x_fit = np.linspace(np.min(x_axis), np.max(x_axis), num_points) # create evenly spaces points for the x-axis, num_points controls how many points
+    # I tried using the distribution.fit(data) method shown in the course notes but it didint work for discrete distributions, used stats.fit instead
+    fit_result = stats.fit(distribution, y_axis_data)
+    params_dict = fit_result.params #gives the paramaters in the form of a dictionary
+    params = tuple(params_dict.values()) #turn paramaters into a tuple
+
+
+    if xi is None and xf is None: # determine  min and max values depending on if the user entered them in manual mode or is in auto mode
+        x_min, x_max = np.min(x_axis), np.max(x_axis)
     else:
-        x_fit = np.linspace(xi, xf, num_points) # if the user enters domain manually
+        x_min, x_max = xi, xf 
+    x_fit = np.linspace(x_min, x_max, num_points) # create evenly spaces points for the x-axis, num_points controls how many points
+    
+
+    is_discrete = hasattr(distribution, 'pmf') and not hasattr(distribution, 'pdf') # check weather the distribution is discrete or not 
+    if not is_discrete: # if the distribution is continuous
+        y_fit = distribution.pdf(x_fit, *params) # .pdf method for continuous distribution
+
+    if is_discrete: # if the disctributioin is discrete
+        y_fit = distribution.pmf(x_fit, *params)  #.pmg method for discrete distribution
 
     
-    #checks whether the given distribution has a pdf method (used for continuous distributions) or a pmf method (used for discrete distributions). 
-    #compute the fitted probability values at the points x_fit using the parameters stored in params and the correct method.
-    if hasattr(distribution, 'pdf'):
-        y_fit = distribution.pdf(x_fit, *params)
-    elif hasattr(distribution, 'pmf'):
-        y_fit = distribution.pmf(x_fit, *params)
-
     #store fited date in a pandas dataframe
     fit_df = pd.DataFrame({x_col: x_fit, y_col: y_fit}) # fit data
     orig_df = df.copy() # Entered data
