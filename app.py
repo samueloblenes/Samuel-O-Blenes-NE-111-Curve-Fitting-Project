@@ -6,7 +6,7 @@ from scipy import stats
 
 # Defining function that accepts a pandas dataframe and a distribution, then returns the fitted dataframe
 
-def fit(df, dist_name, num_points, x_col = "X-Axis", y_col = 'Y-Axis'):
+def fit(df, dist_name, xi = None, xf = None, num_points =  300, x_col = "X-Axis", y_col = 'Y-Axis'):
     x_axis = df[x_col].dropna().values # get data from the X-Axis columns, remove None values
     y_axis = df[y_col].dropna().values # get data from the Y-Axis columns, remove None values
 
@@ -14,8 +14,12 @@ def fit(df, dist_name, num_points, x_col = "X-Axis", y_col = 'Y-Axis'):
 
     params = distribution.fit(y_axis) # Fits the distribution to the cureve, Gives estimated paramaters
 
-    x_fit = np.linspace(np.min(x_axis), np.max(x_axis), num_points) # create evenly spaces points for the x-axis, num_points controls how many points
+    if xi is not None and xf is not None:
+        x_fit = np.linspace(np.min(x_axis), np.max(x_axis), num_points) # create evenly spaces points for the x-axis, num_points controls how many points
+    else:
+        x_fit = np.linspace(np.min(xi), np.max(xf), num_points) # create evenly spaces points for the x-axis, num_points controls how many points
 
+    
     #checks whether the given distribution has a pdf method (used for continuous distributions) or a pmf method (used for discrete distributions). 
     #compute the fitted probability values at the points x_fit using the parameters stored in params and the correct method.
     if hasattr(distribution, 'pdf'):
@@ -76,8 +80,6 @@ if "dist_name" not in st.session_state: # initialize selected sistribution so th
     st.session_state.dist_name = "norm"
 if "num_points" not in st.session_state:
     st.session_state.num_points = 300 
-
-
 
 ########## Data entry ##########
 st.subheader("Data Entry")
