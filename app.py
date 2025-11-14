@@ -86,7 +86,7 @@ def plot(data_confirmed, dataframe, dist_name, num_points  = 300, xi = None, xf 
             df_to_plot[col] = pd.to_numeric(df_to_plot[col], errors='coerce')
             df_to_plot = df_to_plot.dropna()
         
-        orig_df, fit_df = fit(df_to_plot, dist_name, xi = xi, xf = xf num_points = int(num_points)) 
+        orig_df, fit_df = fit(df_to_plot, dist_name, xi = xi, xf = xf, num_points = int(num_points)) 
         
         with col1:
             st.write("Entered Data")
