@@ -178,7 +178,7 @@ with tab1:
 with tab2:
     st.text("Configure curve fitting settings")
     
-    st.session_state.num_points = st.slider("Curve resolution", max_value = 1000, value=300, step=1)
+    st.session_state.num_points = st.slider("Curve resolution", max_value = 300, value=100, step=1)
     
     xi, xf = st.slider(
         label = "Select range of x values", 
