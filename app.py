@@ -177,11 +177,10 @@ with tab1:
 with tab2:
     st.text("Configure curve fitting for manual mode, have sliders and option for every posible fitting paramater")
     
-    st.session_state.num_points = st.number_input(
+    st.session_state.num_points = st.slider(
         "Curve resolution",
         value=300,
         step=1,
-        format="%d"
     )
 
     xi, xf = st.slider(label = "Select range x values", value = (0,25))
