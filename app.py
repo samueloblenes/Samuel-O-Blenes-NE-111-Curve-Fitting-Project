@@ -67,7 +67,7 @@ def data_entry(entry_method, unique_prefix):
 
     return input_df
 
-# definig function that plots the entered data and the fit data
+# defining function that plots the entered data and the fit data
 
 def plot(data_confirmed, dataframe, dist_name, num_points  = 300, xi = None, xf = None, fixed_loc = None, fixed_scale = None): 
     if data_confirmed and not dataframe.empty: # If data is confirmed and the dataframe is not empty, display the graph and table
@@ -105,6 +105,7 @@ def plot(data_confirmed, dataframe, dist_name, num_points  = 300, xi = None, xf 
     else: 
         st.write("Once you enter and confirm your data a graph will apear here") # if data is not confirmed, display this message
 
+# Samuel O'Blenes
 ########## Page formating/ setup ##########
 st.set_page_config(
     page_title="NE 111 Project",
