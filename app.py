@@ -184,7 +184,7 @@ with tab2:
         format="%d"
     )
 
-    x1, xf = st.slider(label = "Select range x values", value = (0,25))
+    xi, xf = st.slider(label = "Select range x values", value = (0,25))
     
     st.text("increasing the curve resolution provides a smoother fitted curve")
 
