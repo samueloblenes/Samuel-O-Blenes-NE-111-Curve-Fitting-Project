@@ -183,12 +183,14 @@ with tab2:
         step=1,
         format="%d"
     )
+
+    x1, xf = st.slider(label = "Select range x values", value = (0,25))
     
     st.text("increasing the curve resolution provides a smoother fitted curve")
 
      
     st.divider()
-    plot(st.session_state.Dataconfirmed,st.session_state.df, st.session_state.dist_name, st.session_state.num_points) # call plot function to display graph 
+    plot(st.session_state.Dataconfirmed,st.session_state.df, st.session_state.dist_name, st.session_state.num_points, xi = xi, xf = xf) # call plot function to display graph 
 
 
 # Samuel O'Blenes NE 111 Final project
